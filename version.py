@@ -1,5 +1,5 @@
-short_name = "godot"
-name = "Godot Engine"
+short_name = "godot lite"
+name = "Godot Engine - LightWeight"
 major = 3
 minor = 6
 patch = 4
@@ -7,4 +7,4 @@ status = "rc"
 module_config = ""
 year = 2026
 website = "https://godotengine.org"
-docs = "3.6"
+docs = "1"
