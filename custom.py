@@ -1,7 +1,6 @@
 # Godot Lite - Sandy Bridge Edition
 
 platform = "windows"
-bits = "64"
 tools = "yes"
 target = "release_debug"
 optimize = "speed"
