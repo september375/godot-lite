@@ -324,11 +324,11 @@ void EditorSettings::_load_defaults(Ref<ConfigFile> p_extra_config) {
 	_initial_set("interface/editor/code_font", "");
 	hints["interface/editor/code_font"] = PropertyInfo(Variant::STRING, "interface/editor/code_font", PROPERTY_HINT_GLOBAL_FILE, "*.ttf,*.otf,*.woff,*.woff2", PROPERTY_USAGE_DEFAULT);
 	_initial_set("interface/editor/dim_editor_on_dialog_popup", true);
-	_initial_set("interface/editor/low_processor_mode_sleep_usec", 6900); // ~144 FPS
+	_initial_set("interface/editor/low_processor_mode_sleep_usec", 33000); // ~144 FPS
 	hints["interface/editor/low_processor_mode_sleep_usec"] = PropertyInfo(Variant::REAL, "interface/editor/low_processor_mode_sleep_usec", PROPERTY_HINT_RANGE, "1,100000,1", PROPERTY_USAGE_DEFAULT | PROPERTY_USAGE_RESTART_IF_CHANGED);
 	// Note: Don't go low on the editor unfocused FPS, as it seems to cause stalls in the game
 	// when using the profiler (see GH-51222).
-	_initial_set("interface/editor/unfocused_low_processor_mode_sleep_usec", 50000); // 20 FPS
+	_initial_set("interface/editor/unfocused_low_processor_mode_sleep_usec", 100000); // 20 FPS
 	// Allow an unfocused FPS limit as low as 1 FPS for those who really need low power usage
 	// (but don't need to preview particles or shaders while the editor is unfocused).
 	// With very low FPS limits, the editor can take a small while to become usable after being focused again,
@@ -409,7 +409,7 @@ void EditorSettings::_load_defaults(Ref<ConfigFile> p_extra_config) {
 	_initial_set("docks/scene_tree/start_create_dialog_fully_expanded", false);
 
 	// FileSystem
-	_initial_set("docks/filesystem/thumbnail_size", 64);
+	_initial_set("docks/filesystem/thumbnail_size", 32);
 	hints["docks/filesystem/thumbnail_size"] = PropertyInfo(Variant::INT, "docks/filesystem/thumbnail_size", PROPERTY_HINT_RANGE, "32,128,16");
 	_initial_set("docks/filesystem/always_show_folders", true);
 
@@ -1330,7 +1330,7 @@ void EditorSettings::load_favorites() {
 bool EditorSettings::is_caret_blink_active() const {
 	bool blink = get("text_editor/cursor/caret_blink");
 	bool vital_only = get("interface/editor/update_vital_only");
-	bool continuous = get("interface/editor/update_continuously");
+	bool continuous = get("interface/editor/update_continuously", false);
 
 	if (vital_only && !continuous) {
 		blink = false;
