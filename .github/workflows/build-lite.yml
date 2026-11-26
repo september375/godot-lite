@@ -26,7 +26,7 @@ jobs:
           arch: amd64
 
       - name: Compile Godot Lite
-        run: scons platform=windows bits=64 tools=yes target=release_debug optimize=speed -j4
+        run: scons platform=windows tools=yes target=release_debug optimize=speed -j4
 
       - name: Prepare portable build
         shell: pwsh
