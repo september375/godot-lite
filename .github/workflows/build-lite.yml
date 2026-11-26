@@ -1,0 +1,46 @@
+name: Build Godot Lite
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 360
+
+    steps:
+      - name: Download source code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build tools
+        run: python -m pip install scons==4.8.1
+
+      - name: Setup C++ compiler
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+
+      - name: Compile Godot Lite
+        run: scons platform=windows bits=64 tools=yes target=release_debug optimize=speed -j4
+
+      - name: Prepare portable build
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist
+          Copy-Item bin/*.exe dist/
+          Copy-Item LICENSE.txt dist/
+          Copy-Item COPYRIGHT.txt dist/
+          New-Item -ItemType File -Force dist/_sc_
+
+      - name: Upload Godot Lite
+        uses: actions/upload-artifact@v4
+        with:
+          name: Godot-Lite-Windows
+          path: dist/
+          compression-level: 6
+          retention-days: 14
